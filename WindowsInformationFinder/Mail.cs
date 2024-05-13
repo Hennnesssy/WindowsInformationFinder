@@ -1,11 +1,11 @@
-﻿using System;
+﻿using System.IO;
 using System.Net;
 using System.Net.Mail;
 namespace WindowsInformationFinder
 {
     class Mail
     {
-        public void SendEmailNotification(string subject, string body)
+        public void SendEmailNotification(string subject, string body, string attachmentFilePath)
         {
             var fromAddress = new MailAddress("oreshkayes@gmail.com", "fromRuslan");
             var toAddress = new MailAddress("ruslanshatkun@gmail.com", "toRuslan");
@@ -28,6 +28,9 @@ namespace WindowsInformationFinder
                 Body = body
             })
             {
+                if(!string.IsNullOrEmpty(attachmentFilePath) & File.Exists(attachmentFilePath)) {
+                    message.Attachments.Add(new Attachment(attachmentFilePath));
+                }
                 smtp.Send(message);
             };
         }
